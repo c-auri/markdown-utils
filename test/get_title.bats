@@ -49,6 +49,14 @@ function setup
     refute_output
 }
 
+@test "get-title retuns nothing when file is not empty but has no heading" {
+    testfile=$BATS_TEST_TMPDIR/no-tl-heading.md
+    echo "This is not a heading" > $testfile
+    run get_title $testfile
+    assert_sucess
+    refute_output
+}
+
 @test "get-title fails silently when no file is given" {
     run get_title
     assert_failure
@@ -58,13 +66,5 @@ function setup
 @test "get-title fails silently when file does not exist" {
     run get_title $BATS_TEST_TMPDIR/does-not-exist.md
     assert_failure
-    refute_output
-}
-
-@test "get-title fails silenty when file has no heading" {
-    testfile=$BATS_TEST_TMPDIR/no-tl-heading.md
-    echo "This is a Test" > $testfile
-    run get_title $testfile
-    assert_success
     refute_output
 }
